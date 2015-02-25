@@ -10,15 +10,9 @@ os.system('modprobe w1-therm')
 from time import *
 lcd = lcddriver.lcd()
 pihostname = socket.gethostname()
-pihostname_len = len(pihostname)
-pihostname_loc = 16 - pihostname_len
-pihostname_loc2 = pihostname_loc / 2
 temp_sensor_in = '/sys/bus/w1/devices/28-000006090383/w1_slave'
 temp_sensor_out = '/sys/bus/w1/devices/28-0000060a9e9d/w1_slave'
 piip = commands.getoutput("/sbin/ifconfig").split("\n")[1].split()[1][5:]
-piip_len = len(piip)
-piip_loc = 16 - piip_len
-piip_loc2 = piip_loc / 2
 
 def temp_raw_in():
     f = open(temp_sensor_in, 'r')
@@ -60,23 +54,21 @@ lcd.lcd_display_string("16X2 I2C Display", 1)
 lcd.lcd_display_string("   Starting...", 2)
 sleep(5)
 while True:
-	pihostname_print = ' ' * pihostname_loc2 + pihostname
-	temp_in = round(read_temp_in(), 1)
-	temp_in_print = str(temp_in) + 'C'
-	temp_out = round(read_temp_out(), 1)
-	temp_out_print = str(temp_out) + 'C'
-	row2 = 'I:' + temp_in_print + '|' + 'O:' + temp_out_print
 	lcd.lcd_clear()
-	lcd.lcd_display_string(pihostname_print, 1)
-	lcd.lcd_display_string(row2, 2)
+	lcd.lcd_display_string("System name:", 1)
+	lcd.lcd_display_string(pihostname, 2)
 	sleep(5)
-	piip_print = ' ' * piip_loc2 + piip
-	temp_in = round(read_temp_in(), 1)
-	temp_in_print = str(temp_in) + 'C'
-	temp_out = round(read_temp_out(), 1)
-	temp_out_print = str(temp_out) + 'C'
-	row2 = 'I:' + temp_in_print + '|' + 'O:' + temp_out_print
 	lcd.lcd_clear()
-	lcd.lcd_display_string(piip_print, 1)
-	lcd.lcd_display_string(row2, 2)
+	lcd.lcd_display_string("System Address:", 1)
+	lcd.lcd_display_string(piip, 2)
+	sleep(5)
+	temp_in = str(read_temp_in()) + 'C'
+	lcd.lcd_clear()
+	lcd.lcd_display_string("Temperature IN:", 1)
+	lcd.lcd_display_string(temp_in, 2)
+	sleep(5)
+	temp_out = str(read_temp_out()) + 'C'
+	lcd.lcd_clear()
+	lcd.lcd_display_string("Temperature OUT:", 1)
+	lcd.lcd_display_string(temp_out, 2)
 	sleep(5)

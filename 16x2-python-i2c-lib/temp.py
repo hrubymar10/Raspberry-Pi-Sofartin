@@ -69,7 +69,7 @@ while True:
 	lcd.lcd_clear()
 	lcd.lcd_display_string(pihostname_print, 1)
 	lcd.lcd_display_string(row2, 2)
-	sleep(5)
+	sleep(15)
 	piip_print = ' ' * piip_loc2 + piip
 	temp_in = round(read_temp_in(), 1)
 	temp_in_print = str(temp_in) + 'C'
@@ -79,4 +79,4 @@ while True:
 	lcd.lcd_clear()
 	lcd.lcd_display_string(piip_print, 1)
 	lcd.lcd_display_string(row2, 2)
-	sleep(5)
+	sleep(15)
